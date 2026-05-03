@@ -122,9 +122,54 @@ def api_pedido_status(pid):
     return jsonify({"ok": True})
 
 
+def init_db():
+    """Crea tablas y datos semilla si la BD no existe."""
+    if os.path.exists(DB):
+        return
+    conn = sqlite3.connect(DB)
+    c = conn.cursor()
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS productos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            descripcion TEXT NOT NULL,
+            precio REAL NOT NULL,
+            imagen TEXT DEFAULT 'ramos-default.jpg',
+            disponible INTEGER DEFAULT 1
+        )
+    """)
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS pedidos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            cliente TEXT NOT NULL,
+            telefono TEXT NOT NULL,
+            direccion TEXT NOT NULL,
+            fecha_entrega TEXT NOT NULL,
+            total REAL NOT NULL,
+            status TEXT DEFAULT 'pendiente',
+            productos TEXT NOT NULL,
+            creado TEXT DEFAULT (datetime('now','localtime'))
+        )
+    """)
+    ramos = [
+        ("Ramo Romántico Rosas", "12 rosas rojas de jardín ecuatoriano con follaje verde y envoltura kraft. El clásico para decir te amo.", 850.00, "ramo-rosas.jpg"),
+        ("Bouquet Primavera", "Mezcla de tulipanes rosas, lilas blancos y astromelias con follaje delicado. Frescura de jardín.", 720.00, "bouquet-primavera.jpg"),
+        ("Ramo Silvestre Elegante", "Girasoles, margaritas y eucalipto con un toque de lavanda. Luz y aroma en un solo ramo.", 680.00, "ramo-silvestre.jpg"),
+        ("Arreglo Peonías Sueño", "Peonías rosadas con hortensias azules en base de musgo natural. Para ocasiones especiales.", 1200.00, "arreglo-peonias.jpg"),
+        ("Ramo Minimalista", "Calas blancas con follaje verde oscuro atadas con listón de seda cruda. Pura elegancia.", 950.00, "ramo-minimalista.jpg"),
+        ("Caja de Flores Eterna", "Rosas preservadas en tonos pastel dentro de caja redonda de terciopelo. Durán meses sin agua.", 1350.00, "caja-eterna.jpg"),
+    ]
+    c.executemany(
+        "INSERT INTO productos (nombre, descripcion, precio, imagen, disponible) VALUES (?, ?, ?, ?, 1)",
+        ramos,
+    )
+    conn.commit()
+    conn.close()
+    print("Base de datos creada con 6 ramos.")
+
+
+init_db()
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5050))
-    if not os.path.exists(DB):
-        print("Ejecutá init_db.py primero para crear la base de datos.")
-    else:
-        app.run(debug=False, host="0.0.0.0", port=port)
+    app.run(debug=False, host="0.0.0.0", port=port)
