@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Florería — Ramos frescos en Chiapas</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💐</text></svg>">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="container">
+    <a href="/" class="navbar-brand">Florería <span>Chiapas</span></a>
+    <ul class="nav-links">
+      <li><a href="/" class="active">Catálogo</a></li>
+      <li><a href="#pedido">Hacer pedido</a></li>
+      <li><a href="/admin">Admin</a></li>
+      <li>
+        <button class="cart-badge" onclick="toggleCart()" style="background:none;border:none;" aria-label="Carrito">
+          🛒 <span class="badge" style="display:none">0</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <h1>El ramo <em>perfecto</em><br>para cada momento</h1>
+  <p>Ramos frescos de jardín, armados a mano en San Cristóbal de las Casas. Entrega el mismo día.</p>
+  <a href="#catalogo" class="btn btn-primary">Ver catálogo</a>
+</section>
+
+<!-- Catálogo -->
+<section class="catalogo" id="catalogo">
+  <div class="container">
+    <div class="catalogo-header">
+      <h2>Nuestros ramos</h2>
+      <p>Cada ramo se arma fresco al momento de tu pedido</p>
+    </div>
+    <div class="grid-ramos">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- Pedido -->
+<section class="pedido-page" id="pedido">
+  <div class="container">
+    <h2>Hacé tu pedido</h2>
+    <p class="sub">Completá tus datos y te confirmamos por WhatsApp en minutos.</p>
+
+    <div class="resumen-pedido">
+      <!-- populated by JS -->
+    </div>
+
+    <form id="form-pedido">
+      <div class="form-group">
+        <label for="cliente">Nombre completo</label>
+        <input type="text" id="cliente" name="cliente" placeholder="María García" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="telefono">Teléfono / WhatsApp</label>
+          <input type="tel" id="telefono" name="telefono" placeholder="961 123 4567" required>
+        </div>
+        <div class="form-group">
+          <label for="fecha_entrega">Fecha de entrega</label>
+          <input type="date" id="fecha_entrega" name="fecha_entrega" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="direccion">Dirección de entrega</label>
+        <textarea id="direccion" name="direccion" rows="2" placeholder="Calle, número, colonia, referencia..." required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;font-size:1rem;padding:0.85rem;">Confirmar pedido</button>
+    </form>
+
+    <div id="confirmacion" class="confirmacion">
+      <span class="check">✅</span>
+      <h2>¡Pedido recibido!</h2>
+      <p>Te contactaremos por WhatsApp en los próximos minutos para confirmar la entrega.</p>
+      <a href="/" class="btn btn-primary">Seguir viendo</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-brand">Florería <span>Chiapas</span></div>
+  <p>Ramos frescos desde San Cristóbal de las Casas, Chiapas</p>
+  <p>Hecho con <span class="heart">♥</span> y muchas flores</p>
+</footer>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/529611234567?text=Hola%20quiero%20encargar%20un%20ramo" target="_blank" rel="noopener" class="whatsapp-float" onmouseenter="toggleWhatsappTooltip(true)" onmouseleave="toggleWhatsappTooltip(false)" aria-label="Chatear por WhatsApp">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+<span class="whatsapp-tooltip">¿Dudas? Chateanos</span>
+
+<!-- Cart Overlay & Panel -->
+<div class="cart-overlay" onclick="closeCart()"></div>
+<aside class="cart-panel">
+  <div class="cart-panel-header">
+    <h2>Tu carrito <span class="cart-count" style="font-size:0.9rem;color:var(--texto-claro);font-family:var(--sans);font-weight:400;"></span></h2>
+    <button class="btn-close" onclick="closeCart()" aria-label="Cerrar">✕</button>
+  </div>
+  <div class="cart-items">
+    <!-- populated by JS -->
+  </div>
+  <div class="cart-panel-footer">
+    <div class="cart-total">
+      <span>Total</span>
+      <span class="total">$0.00</span>
+    </div>
+    <a href="#pedido" class="btn btn-primary" onclick="closeCart()">Hacer pedido</a>
+  </div>
+</aside>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>
